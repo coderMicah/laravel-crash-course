@@ -27,9 +27,10 @@ class AppServiceProvider extends ServiceProvider
 
         Model::preventLazyLoading();
 
-        Gate::define('edit-job', function (User $user, Job $job) {
-            return $job->employer->user->is($user);
-        });
+        //we now use policy to handle authorization
+        // Gate::define('edit-job', function (User $user, Job $job) {
+        //     return $job->employer->user->is($user);
+        // });
 
         //this tells app to use bootstrap instead of tailwind paginator
         // Paginator::useBootstrapFive();

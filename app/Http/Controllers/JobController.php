@@ -3,10 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Job;
-use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
 
 class JobController extends Controller
 {
@@ -46,16 +43,18 @@ class JobController extends Controller
 
     public function edit(Job $job)
     {
-        
+        //authorization logic without gate
         // if(Auth::guest()){
         //     return redirect('/login');
         // }
-
-        // Gate::authorize('edit-job', $job);
-
         // if($job->employer->user->isNot(Auth::user())){
         //     return abort(403);
         // }
+
+        //authorization logic with gate(Gate is defined in provider and used here)
+        // Gate::authorize('edit-job', $job); ->similart to above if check
+
+        
         return view('jobs.edit', ['job' => $job]);
     }
 
@@ -67,7 +66,8 @@ class JobController extends Controller
             'salary' => ['required']
         ]);
 
-        //authorize the request
+        //authorize the request(with gates you need to repeat the logic,preferably use middleware)
+        // Gate::authorize('edit-job', $job);
 
         //update the job 
         $job->update([
@@ -81,7 +81,8 @@ class JobController extends Controller
 
     public function destroy(Job $job)
     {
-        //authorize
+         //authorize the request(with gates you need to repeat the logic,preferably use middleware)
+        // Gate::authorize('edit-job', $job);
 
         //delete
         $job->delete();
